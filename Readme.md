@@ -33,10 +33,6 @@
 
 ```mvn clean compile assembly:single```
 
-Или воспользуйтесь уже собранным экземпляром
-
-<https://github.com/Pavel-Burdakov/Task_NLMK/blob/main/target/Task_NLMK-1.0-SNAPSHOT.jar>
-
 После сборки приложения перейдите в папку target
 
 ```cd target```
