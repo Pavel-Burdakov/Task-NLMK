@@ -1,10 +1,10 @@
 import nlmk.task.TrendAssessment;
 import nlmk.task.exeception.NotValidDataException;
 import org.junit.Assert;
-import org.junit.ClassRule;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.contrib.java.lang.system.SystemOutRule;
+import org.junit.jupiter.api.Test;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -15,29 +15,28 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * public void correctData() - тест, предусматривающий корректное исполнене программы
  */
 public class TestTrendAssessment {
-    @org.junit.jupiter.api.Test
+    private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
+
+    @Test
     public void testDataNotValid() {
         assertThrows(NotValidDataException.class, () -> TrendAssessment.main(new String[]{"src/test/resources/BadData.csv", "8"}));
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void testDeltaNotValid() {
         assertThrows(NotValidDataException.class, () -> TrendAssessment.main(new String[]{"src/test/resources/Data.csv", "fff"}));
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void testNoSuchFile() {
         assertThrows(RuntimeException.class, () -> TrendAssessment.main(new String[]{"noFile.csv", "8"}));
     }
 
-    @Rule
-    public final SystemOutRule systemOutRule = new SystemOutRule().enableLog();
-
-    @org.junit.jupiter.api.Test
+    @Test
     public void correctData() throws Exception {
+        System.setOut(new PrintStream(outputStreamCaptor));
         TrendAssessment.main(new String[]{"src/test/resources/Data.csv", "17"});
-        Assert.assertEquals("Уровень металла в кристаллизаторе Ручей 8 в 01.02.2022 16:05 отличается от предыдущего на 17 мм.", systemOutRule.getLog()
-                .trim());
+        Assert.assertEquals("Уровень металла в кристаллизаторе Ручей 8 в 01.02.2022 16:05 отличается от предыдущего. Разница 17 мм.", outputStreamCaptor.toString().trim());
     }
 }
 

@@ -65,18 +65,21 @@ public class ExtractData {
             stream = new FileInputStream(fileName);
         } catch (FileNotFoundException e) {
             logger.error(e.getMessage());
+            throw new RuntimeException();
         }
         CSVReader reader = null;
         try {
             reader = new CSVReader(new InputStreamReader(stream, "Windows-1251"));
         } catch (UnsupportedEncodingException e) {
             logger.error(e.getMessage());
+            throw new RuntimeException();
         }
         String[] strings = new String[0];
         try {
             strings = new String[]{Arrays.toString(reader.readNext())};
         } catch (CsvValidationException | IOException e) {
             logger.error(e.getMessage());
+            throw new RuntimeException();
         }
         return strings[0].split(";");
     }

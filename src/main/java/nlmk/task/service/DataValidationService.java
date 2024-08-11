@@ -38,7 +38,7 @@ public class DataValidationService {
         try {
             Integer.parseInt(delta);
         } catch (NumberFormatException e) {
-            System.out.println("неверно ввден уровень отклонения");
+            logger.error("неверно ввден уровень отклонения");
             throw new NotValidDataException();
         }
     }
